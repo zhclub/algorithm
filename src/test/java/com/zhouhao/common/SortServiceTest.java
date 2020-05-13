@@ -1,5 +1,6 @@
 package com.zhouhao.common;
 
+import com.zhouhao.sort.BubbleSort;
 import com.zhouhao.sort.InsertionSort;
 import com.zhouhao.sort.MergeSort;
 import com.zhouhao.sort.SelectionSort;
@@ -17,7 +18,7 @@ class SortServiceTest {
 
     @BeforeEach
     void setUp() {
-        nums = TestUtils.generateNums(100000, 1000);
+        nums = TestUtils.generateNums(10000, 1000);
         expected = TestUtils.sort(nums);
     }
 
@@ -45,4 +46,11 @@ class SortServiceTest {
         assertArrayEquals(expected, nums);
     }
 
+    @Test
+    void bubbleSort() {
+        SortService sortService = new BubbleSort();
+
+        TestUtils.executeTime(() -> sortService.sort(nums), "bubble sort");
+        assertArrayEquals(expected, nums);
+    }
 }
