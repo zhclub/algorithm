@@ -24,8 +24,20 @@ public class TestUtils {
         return temp;
     }
 
+    public static long executeTime(Executor executor, String methodName) {
+        long start = System.currentTimeMillis();
+        executor.exec();
+        long time = System.currentTimeMillis() - start;
+        System.out.println(methodName + " execution for " + time + " ms");
+        return time;
+    }
+
     public static void main(String[] args) {
 
     }
 
+    @FunctionalInterface
+    public interface Executor {
+        void exec();
+    }
 }

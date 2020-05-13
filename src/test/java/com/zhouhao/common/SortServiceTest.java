@@ -2,6 +2,7 @@ package com.zhouhao.common;
 
 import com.zhouhao.sort.InsertionSort;
 import com.zhouhao.sort.MergeSort;
+import com.zhouhao.sort.SelectionSort;
 import com.zhouhao.utils.TestUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,7 +17,7 @@ class SortServiceTest {
 
     @BeforeEach
     void setUp() {
-        nums = TestUtils.generateNums(100, 100);
+        nums = TestUtils.generateNums(100000, 1000);
         expected = TestUtils.sort(nums);
     }
 
@@ -24,7 +25,15 @@ class SortServiceTest {
     void insertionSort() {
         SortService sortService = new InsertionSort();
 
-        sortService.sort(nums);
+        TestUtils.executeTime(() -> sortService.sort(nums), "insertion sort");
+        assertArrayEquals(expected, nums);
+    }
+
+    @Test
+    void selectionSort() {
+        SortService sortService = new SelectionSort();
+
+        TestUtils.executeTime(() -> sortService.sort(nums), "selection sort");
         assertArrayEquals(expected, nums);
     }
 
@@ -32,7 +41,7 @@ class SortServiceTest {
     void mergeSort() {
         SortService sortService = new MergeSort();
 
-        sortService.sort(nums);
+        TestUtils.executeTime(() -> sortService.sort(nums), "merge sort");
         assertArrayEquals(expected, nums);
     }
 
