@@ -1,25 +1,37 @@
 package com.zhouhao.common;
 
-import com.zhouhao.sort.BubbleSort;
-import com.zhouhao.sort.InsertionSort;
-import com.zhouhao.sort.MergeSort;
-import com.zhouhao.sort.SelectionSort;
+import com.zhouhao.sort.*;
 import com.zhouhao.utils.TestUtils;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class SortServiceTest {
 
+    private static int[] source;
+
+    private static int[] expected;
+
     private int[] nums;
 
-    private int[] expected;
+    @BeforeAll
+    static void init() {
+        source = TestUtils.generateNums(100000, 1000);
+        expected = TestUtils.sort(source);
+    }
 
     @BeforeEach
     void setUp() {
-        nums = TestUtils.generateNums(10000, 1000);
-        expected = TestUtils.sort(nums);
+        nums = Arrays.copyOf(source, source.length);
+    }
+
+    @Test
+    void sort() {
+        TestUtils.executeTime(() -> Arrays.sort(nums), "arrays sort");
     }
 
     @Test
@@ -53,4 +65,14 @@ class SortServiceTest {
         TestUtils.executeTime(() -> sortService.sort(nums), "bubble sort");
         assertArrayEquals(expected, nums);
     }
+
+    @Test
+    void quickSort() {
+        SortService sortService = new QuickSort();
+
+        TestUtils.executeTime(() -> sortService.sort(nums), "quick sort");
+        assertArrayEquals(expected, nums);
+    }
+
+
 }
